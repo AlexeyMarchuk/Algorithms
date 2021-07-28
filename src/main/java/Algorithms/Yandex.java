@@ -12,23 +12,21 @@ public class Yandex {
         for (int i = 0; i < inputList.size(); i++) {
             for (int j = i + 1; j < inputList.size(); j++) {
 
-                Integer elementI = inputList.get(i);
-                Integer elementJ = inputList.get(j);
-                int elementIPlusElementJ = elementI + elementJ;
+                int elementIPlusElementJ = inputList.get(i) + inputList.get(j);
                 Integer kMinusElements = k - elementIPlusElementJ;
 
-                Set<Integer> innerlist = new HashSet<>();
+                Set<Integer> innerSet = new HashSet<>();
 
                     if(kMinusElements < maxValue) {
                         if (aggregator.containsKey(kMinusElements)) {
-                            innerlist.add(i);
-                            innerlist.add(j);
-                            aggregator.get(kMinusElements).add(innerlist);
+                            innerSet.add(i);
+                            innerSet.add(j);
+                            aggregator.get(kMinusElements).add(innerSet);
                         } else {
                             ArrayList<Set<Integer>> outerlist = new ArrayList<>();
-                            innerlist.add(i);
-                            innerlist.add(j);
-                            outerlist.add(innerlist);
+                            innerSet.add(i);
+                            innerSet.add(j);
+                            outerlist.add(innerSet);
                             aggregator.put(kMinusElements, outerlist);
                         }
                     }
@@ -37,13 +35,13 @@ public class Yandex {
 
         Set<Object> resultSet = new HashSet<>();
         for (int i = 0; i < inputList.size(); i++) {
-            ArrayList<Set<Integer>> valuedrap = aggregator.get(inputList.get(i));
+            ArrayList<Set<Integer>> outerList = aggregator.get(inputList.get(i));
             int finalI = i;
 
-            if (valuedrap != null) {
-                valuedrap.forEach(innerList -> {
-                    if(!innerList.contains(finalI)) {
-                       Set<Integer> result =  new HashSet<>(innerList);
+            if (outerList != null) {
+                outerList.forEach(innerSet -> {
+                    if(!innerSet.contains(finalI)) {
+                       Set<Integer> result =  new HashSet<>(innerSet);
                         result.add(finalI);
                         resultSet.add(result);
                     }
@@ -51,7 +49,7 @@ public class Yandex {
             }
         }
         resultSet.forEach(System.out::println);
-        System.out.println(resultSet.size());
+        System.out.println("count of pairs with three elements is: " + resultSet.size());
     }
 
 }
