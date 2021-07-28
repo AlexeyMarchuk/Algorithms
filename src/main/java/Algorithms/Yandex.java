@@ -7,8 +7,6 @@ public class Yandex {
         List<Integer> inputList = Arrays.asList(arr);
         Map<Integer, ArrayList<Set<Integer>>> aggregator = new HashMap<>();
 
-        int maxValue = inputList.stream().max(Comparator.naturalOrder()).get();
-
         for (int i = 0; i < inputList.size(); i++) {
             for (int j = i + 1; j < inputList.size(); j++) {
 
@@ -17,19 +15,17 @@ public class Yandex {
 
                 Set<Integer> innerSet = new HashSet<>();
 
-                    if(kMinusElements < maxValue) {
-                        if (aggregator.containsKey(kMinusElements)) {
-                            innerSet.add(i);
-                            innerSet.add(j);
-                            aggregator.get(kMinusElements).add(innerSet);
-                        } else {
-                            ArrayList<Set<Integer>> outerlist = new ArrayList<>();
-                            innerSet.add(i);
-                            innerSet.add(j);
-                            outerlist.add(innerSet);
-                            aggregator.put(kMinusElements, outerlist);
-                        }
-                    }
+                if (aggregator.containsKey(kMinusElements)) {
+                    innerSet.add(i);
+                    innerSet.add(j);
+                    aggregator.get(kMinusElements).add(innerSet);
+                } else {
+                    ArrayList<Set<Integer>> outerlist = new ArrayList<>();
+                    innerSet.add(i);
+                    innerSet.add(j);
+                    outerlist.add(innerSet);
+                    aggregator.put(kMinusElements, outerlist);
+                }
             }
         }
 
@@ -40,8 +36,8 @@ public class Yandex {
 
             if (outerList != null) {
                 outerList.forEach(innerSet -> {
-                    if(!innerSet.contains(finalI)) {
-                       Set<Integer> result =  new HashSet<>(innerSet);
+                    if (!innerSet.contains(finalI)) {
+                        Set<Integer> result = new HashSet<>(innerSet);
                         result.add(finalI);
                         resultSet.add(result);
                     }
